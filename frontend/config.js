@@ -1,0 +1,3 @@
+const SUPABASE_URL = "https://uajeokilxbavzcoioetn.supabase.co";
+
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhamVva2lseGJhdnpjb2lvZXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwMTc1MTksImV4cCI6MjEwMTU5MzUxOX0.3y0etVk472RIf8eaBGDqhVXt24fXR2oLhJvAMPrsnfU";

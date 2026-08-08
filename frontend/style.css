@@ -1,0 +1,315 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    display:flex;
+    min-height:100vh;
+}
+
+/* ================= Sidebar ================= */
+
+.sidebar{
+
+    width:250px;
+    background:linear-gradient(180deg,#1e293b,#0f172a);
+    color:white;
+    padding:30px 20px;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    box-shadow:5px 0 20px rgba(0,0,0,.15);
+
+}
+
+.logo{
+
+    font-size:26px;
+    font-weight:700;
+    margin-bottom:40px;
+    text-align:center;
+
+}
+
+.sidebar ul{
+
+    list-style:none;
+
+}
+
+.sidebar li{
+
+    padding:15px;
+    margin:12px 0;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    font-size:17px;
+
+}
+
+.sidebar li:hover{
+
+    background:#2563eb;
+
+}
+
+.sidebar li.active{
+
+    background:#2563eb;
+
+}
+
+/* ================= Main ================= */
+
+.main{
+
+    flex:1;
+    margin-left:250px;
+    padding:35px;
+
+}
+
+/* ================= Header ================= */
+
+header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+
+}
+
+header h1{
+
+    color:#1f2937;
+    font-size:30px;
+
+}
+
+.profile{
+
+    background:white;
+    padding:12px 22px;
+    border-radius:50px;
+    font-weight:600;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+/* ================= Cards ================= */
+
+.cards{
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+    margin-bottom:30px;
+
+}
+
+.card{
+
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.card h4{
+
+    color:#6b7280;
+    margin-bottom:12px;
+    font-weight:500;
+
+}
+
+.card h2{
+
+    color:#2563eb;
+    font-size:32px;
+    font-weight:700;
+
+}
+
+/* ================= Charts ================= */
+
+.charts{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    margin-bottom:30px;
+
+}
+
+.chart-card{
+
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.chart-card h3{
+
+    margin-bottom:20px;
+    color:#1f2937;
+
+}
+
+canvas{
+
+    width:100%!important;
+    height:330px!important;
+
+}
+
+/* ================= Table ================= */
+
+.table-card{
+
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.table-card h3{
+
+    margin-bottom:20px;
+    color:#1f2937;
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+thead{
+
+    background:#2563eb;
+    color:white;
+
+}
+
+thead th{
+
+    padding:16px;
+    text-align:left;
+    font-size:15px;
+
+}
+
+tbody tr{
+
+    transition:.25s;
+
+}
+
+tbody tr:nth-child(even){
+
+    background:#f9fafb;
+
+}
+
+tbody tr:hover{
+
+    background:#dbeafe;
+
+}
+
+tbody td{
+
+    padding:15px;
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+/* ================= Responsive ================= */
+
+@media(max-width:1200px){
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.charts{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+
+width:80px;
+
+}
+
+.logo{
+
+font-size:18px;
+
+}
+
+.sidebar li{
+
+justify-content:center;
+font-size:0;
+
+}
+
+.sidebar li i{
+
+font-size:20px;
+
+}
+
+.main{
+
+margin-left:80px;
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+header{
+
+flex-direction:column;
+gap:20px;
+
+}
+
+}
