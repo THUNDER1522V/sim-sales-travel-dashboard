@@ -1,58 +1,83 @@
-import { MapPin } from 'lucide-react'
+import { MapPin, Globe2 } from 'lucide-react'
 
-const destinations = [
-  { rank: '01', code: 'GB', name: 'United Kingdom', revenue: '₹98,234', sims: 124, share: 20.81 },
-  { rank: '02', code: 'US', name: 'United States', revenue: '₹82,120', sims: 98, share: 17.4 },
-  { rank: '03', code: 'TH', name: 'Thailand', revenue: '₹64,200', sims: 87, share: 13.6 },
-  { rank: '04', code: 'AE', name: 'UAE', revenue: '₹48,900', sims: 65, share: 10.36 },
-  { rank: '05', code: 'VN', name: 'Vietnam', revenue: '₹41,200', sims: 54, share: 8.73 },
-  { rank: '06', code: 'JP', name: 'Japan', revenue: '₹38,500', sims: 42, share: 8.16 },
-  { rank: '07', code: 'EU', name: 'Europe Regional', revenue: '₹32,400', sims: 38, share: 6.86 },
-  { rank: '08', code: 'SG', name: 'Singapore', revenue: '₹22,100', sims: 28, share: 4.68 },
-]
+export default function RegionMap({ destinations = [] }) {
+  const topDest = destinations[0] || {
+    name: 'United Kingdom',
+    sims: 124,
+    revenue: '₹98,234',
+    share: 20.81,
+    flag: '🇬🇧',
+  }
 
-const flagMap = {
-  GB: '🇬🇧', US: '🇺🇸', TH: '🇹🇭', AE: '🇦🇪', VN: '🇻🇳', JP: '🇯🇵', EU: '🇪🇺', SG: '🇸🇬',
-}
-
-export default function RegionMap() {
   return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100">
-      <div className="flex items-center justify-between mb-1">
-        <p className="text-[10px] tracking-widest text-[#FF6B35] font-semibold uppercase">Global Reach</p>
-        <MapPin className="w-5 h-5 text-gray-400" />
-      </div>
-      <h3 className="text-base font-bold text-gray-900">Where Are Customers Connecting?</h3>
-      <p className="text-xs text-gray-500 mt-0.5 mb-4">Ranked travel SIM demand and revenue share</p>
-
-      {/* Highlight bar */}
-      <div className="bg-gradient-to-r from-blue-50 to-blue-100/50 rounded-xl p-3 mb-4 flex items-center gap-2">
-        <span className="text-base">🇬🇧</span>
-        <p className="text-xs text-gray-700">
-          <span className="font-bold">United Kingdom</span> drives highest demand with <span className="font-bold">124 orders</span> (₹98,234, 20.81% share).
+    <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-gray-100 dark:border-slate-800 shadow-card flex flex-col justify-between h-full">
+      <div>
+        <div className="flex items-center justify-between mb-1">
+          <p className="text-[10px] tracking-widest text-[#FF6B35] font-bold uppercase">
+            Global Reach
+          </p>
+          <MapPin className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+        </div>
+        <h3 className="text-base font-bold text-gray-900 dark:text-white">
+          Where Are Customers Connecting?
+        </h3>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 mb-4">
+          Ranked travel SIM demand and revenue share across territories
         </p>
-      </div>
 
-      {/* Destination list */}
-      <div className="space-y-2.5">
-        {destinations.slice(0, 6).map((dest) => (
-          <div
-            key={dest.rank}
-            className="flex items-center justify-between py-1.5 group hover:bg-gray-50 rounded-lg px-2 transition-colors"
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-bold text-gray-400 w-5">{dest.rank}</span>
-              <span className="text-sm">{flagMap[dest.code]}</span>
-              <div>
-                <span className="text-sm font-semibold text-gray-800">{dest.name}</span>
+        {/* Highlight Banner */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 rounded-xl p-3.5 mb-4 flex items-center gap-3 border border-blue-100 dark:border-blue-900/40">
+          <span className="text-2xl shrink-0">{topDest.flag}</span>
+          <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
+            <span className="font-bold text-gray-900 dark:text-white">{topDest.name}</span> drives highest demand with{' '}
+            <span className="font-bold text-emerald-600 dark:text-emerald-400">{topDest.sims} orders</span> ({topDest.revenue}, {topDest.share}% share).
+          </p>
+        </div>
+
+        {/* Destination List */}
+        <div className="space-y-3">
+          {destinations.slice(0, 6).map((dest) => (
+            <div
+              key={dest.rank}
+              className="group p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800/60 transition-colors"
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span className="text-xs font-mono font-bold text-gray-400 dark:text-gray-500 w-5">
+                    {dest.rank}
+                  </span>
+                  <span className="text-base shrink-0">{dest.flag}</span>
+                  <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">
+                    {dest.name}
+                  </span>
+                </div>
+                <div className="text-right shrink-0 ml-2">
+                  <span className="text-xs font-bold text-gray-900 dark:text-gray-100">
+                    {dest.revenue}
+                  </span>
+                  <span className="text-[10px] text-gray-400 dark:text-gray-500 block">
+                    {dest.sims} SIMs · {dest.share}%
+                  </span>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div
+                  className="bg-gradient-to-r from-[#FF6B35] to-[#06B6D4] h-full rounded-full transition-all duration-500"
+                  style={{ width: `${Math.min(dest.share * 3.5, 100)}%` }}
+                />
               </div>
             </div>
-            <div className="text-right">
-              <span className="text-sm font-bold text-gray-800">{dest.revenue}</span>
-              <p className="text-[10px] text-gray-400">{dest.sims} SIMs · {dest.share}%</p>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-4 pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-gray-400 dark:text-gray-500">
+        <span className="flex items-center gap-1">
+          <Globe2 className="w-3.5 h-3.5 text-cyan-500" /> 180+ Global Roaming Zones
+        </span>
+        <span>Active ISO Roaming</span>
       </div>
     </div>
   )

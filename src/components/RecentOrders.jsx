@@ -1,86 +1,157 @@
-const leaderboard = [
-  { rank: '#01', name: 'Faizan', badge: '#1 TOP SELLER', mtdRevenue: '₹1,42,148', mtdOrders: 186, todayOrders: 10, todayRevenue: '₹10,534.20' },
-  { rank: '#02', name: 'Talha', badge: '#2 RANK', mtdRevenue: '₹89,450', mtdOrders: 112, todayOrders: 6, todayRevenue: '₹5,120' },
-  { rank: '#03', name: 'Prabhat', badge: '#3 RANK', mtdRevenue: '₹76,200', mtdOrders: 95, todayOrders: 5, todayRevenue: '₹4,500' },
-  { rank: '#04', name: 'Bhageshri', badge: '#4 RANK', mtdRevenue: '₹61,900', mtdOrders: 78, todayOrders: 4, todayRevenue: '₹3,400' },
-  { rank: '#05', name: 'Sanika', badge: null, mtdRevenue: '₹44,100', mtdOrders: 54, todayOrders: 3, todayRevenue: '₹2,350' },
-  { rank: '#06', name: 'Nidhi', badge: null, mtdRevenue: '₹25,200', mtdOrders: 32, todayOrders: 2, todayRevenue: '₹1,450' },
-  { rank: '#07', name: 'Karishma', badge: null, mtdRevenue: '₹17,800', mtdOrders: 21, todayOrders: 2, todayRevenue: '₹1,100' },
-  { rank: '#08', name: 'Rahul', badge: null, mtdRevenue: '₹8,300', mtdOrders: 9, todayOrders: 1, todayRevenue: '₹450' },
-  { rank: '#09', name: 'Nadeem', badge: null, mtdRevenue: '₹4,600', mtdOrders: 5, todayOrders: 1, todayRevenue: '₹102.20' },
-  { rank: '#10', name: 'Rahel', badge: null, mtdRevenue: '₹2,389', mtdOrders: 2, todayOrders: 0, todayRevenue: '—' },
-]
+import { useState } from 'react'
+import { Trophy, Search, Users, ShieldCheck } from 'lucide-react'
 
 const badgeColors = {
-  '#1 TOP SELLER': 'bg-gradient-to-r from-amber-400 to-amber-500 text-white',
-  '#2 RANK': 'bg-gradient-to-r from-gray-300 to-gray-400 text-gray-800',
-  '#3 RANK': 'bg-gradient-to-r from-orange-300 to-orange-400 text-white',
-  '#4 RANK': 'bg-gradient-to-r from-blue-300 to-blue-400 text-white',
+  '#1 TOP SELLER': 'bg-gradient-to-r from-amber-400 to-amber-500 text-white shadow-sm shadow-amber-500/30',
+  '#2 RANK': 'bg-gradient-to-r from-slate-300 to-slate-400 text-slate-900',
+  '#3 RANK': 'bg-gradient-to-r from-amber-600 to-amber-700 text-white',
+  '#4 RANK': 'bg-gradient-to-r from-blue-400 to-blue-500 text-white',
 }
 
-export default function RecentOrders() {
-  return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100">
-      <div className="mb-1">
-        <p className="text-[10px] tracking-widest text-[#FF6B35] font-semibold uppercase">Commercial Team</p>
-      </div>
-      <h3 className="text-base font-bold text-gray-900">Salesperson Performance & Revenue Leaderboard</h3>
-      <p className="text-xs text-gray-500 mt-0.5 mb-4">Individual monthly sales velocity and today's conversion telemetry</p>
+export default function RecentOrders({ leaderboard = [] }) {
+  const [searchTerm, setSearchTerm] = useState('')
 
-      {/* Top 4 cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {leaderboard.slice(0, 4).map((person) => (
-          <div key={person.rank} className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:shadow-md transition-all">
+  const filtered = leaderboard.filter((person) =>
+    person.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  return (
+    <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-gray-100 dark:border-slate-800 shadow-card">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+        <div>
+          <div className="flex items-center gap-2">
+            <p className="text-[10px] tracking-widest text-[#FF6B35] font-bold uppercase">
+              Commercial Team
+            </p>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-200/50 dark:border-emerald-900/50">
+              10 Active Staff
+            </span>
+          </div>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white mt-0.5 flex items-center gap-2">
+            Salesperson Performance & Revenue Leaderboard
+          </h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            Individual monthly sales velocity and today's conversion telemetry
+          </p>
+        </div>
+
+        {/* Search filter */}
+        <div className="relative">
+          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search salesperson..."
+            className="pl-9 pr-3 py-1.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50/80 dark:bg-slate-800 text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B35]/20 focus:border-[#FF6B35] transition-all w-full sm:w-48"
+          />
+        </div>
+      </div>
+
+      {/* Top 4 Podium Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        {leaderboard.slice(0, 4).map((person, idx) => (
+          <div
+            key={person.rank}
+            className="relative bg-gradient-to-b from-gray-50 to-white dark:from-slate-800/80 dark:to-slate-900 rounded-xl p-4 border border-gray-100 dark:border-slate-800 hover:shadow-md transition-all group overflow-hidden"
+          >
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-bold text-gray-800">{person.name}</h4>
+              <div className="flex items-center gap-2">
+                {idx === 0 && <Trophy className="w-4 h-4 text-amber-500" />}
+                <h4 className="text-sm font-bold text-gray-900 dark:text-white">{person.name}</h4>
+              </div>
               {person.badge && (
-                <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${badgeColors[person.badge] || 'bg-gray-200 text-gray-700'}`}>
+                <span
+                  className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                    badgeColors[person.badge] || 'bg-gray-200 text-gray-700'
+                  }`}
+                >
                   {person.badge}
                 </span>
               )}
             </div>
-            <p className="text-xl font-bold text-emerald-500">{person.mtdRevenue}</p>
-            <p className="text-xs text-gray-400 mt-1">{person.mtdOrders} SIM orders MTD</p>
-            <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-200">
-              <span className="text-xs text-gray-500">Today: {person.todayOrders} orders</span>
-              <span className="text-xs font-semibold text-emerald-500">{person.todayRevenue}</span>
+
+            <p className="text-xl font-black text-emerald-600 dark:text-emerald-400">
+              {person.mtdRevenue}
+            </p>
+            <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">
+              {person.mtdOrders} SIM orders MTD
+            </p>
+
+            <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100 dark:border-slate-800 text-xs">
+              <span className="text-gray-500 dark:text-gray-400">Today: {person.todayOrders} orders</span>
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">{person.todayRevenue}</span>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Full table */}
+      {/* Full Leaderboard Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-xs">
           <thead>
-            <tr className="border-b border-gray-100">
-              <th className="text-left py-2 px-2 text-[10px] tracking-widest text-gray-400 font-semibold uppercase">Rank</th>
-              <th className="text-left py-2 px-2 text-[10px] tracking-widest text-gray-400 font-semibold uppercase">Staff Name</th>
-              <th className="text-right py-2 px-2 text-[10px] tracking-widest text-gray-400 font-semibold uppercase">MTD Revenue</th>
-              <th className="text-right py-2 px-2 text-[10px] tracking-widest text-gray-400 font-semibold uppercase">MTD Orders</th>
-              <th className="text-right py-2 px-2 text-[10px] tracking-widest text-gray-400 font-semibold uppercase">Today Revenue</th>
-              <th className="text-right py-2 px-2 text-[10px] tracking-widest text-gray-400 font-semibold uppercase">Today Orders</th>
-              <th className="text-center py-2 px-2 text-[10px] tracking-widest text-gray-400 font-semibold uppercase">Status</th>
+            <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 dark:text-gray-500 uppercase tracking-wider text-[10px]">
+              <th className="text-left py-2.5 px-3">Rank</th>
+              <th className="text-left py-2.5 px-3">Staff Name</th>
+              <th className="text-right py-2.5 px-3">MTD Revenue</th>
+              <th className="text-right py-2.5 px-3">MTD Orders</th>
+              <th className="text-right py-2.5 px-3">Today Revenue</th>
+              <th className="text-right py-2.5 px-3">Today Orders</th>
+              <th className="text-center py-2.5 px-3">Status</th>
             </tr>
           </thead>
-          <tbody>
-            {leaderboard.map((person) => (
-              <tr key={person.rank} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                <td className="py-3 px-2 font-bold text-emerald-500">{person.rank}</td>
-                <td className="py-3 px-2 font-semibold text-gray-800">{person.name}</td>
-                <td className="py-3 px-2 text-right font-medium text-gray-700">{person.mtdRevenue}</td>
-                <td className="py-3 px-2 text-right text-gray-600">{person.mtdOrders}</td>
-                <td className="py-3 px-2 text-right font-medium text-emerald-500">{person.todayRevenue}</td>
-                <td className="py-3 px-2 text-right text-gray-600">{person.todayOrders || '—'}</td>
-                <td className="py-3 px-2 text-center">
-                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-50 text-emerald-600">Active</span>
+          <tbody className="divide-y divide-gray-50 dark:divide-slate-800/60">
+            {filtered.map((person) => (
+              <tr
+                key={person.rank}
+                className="hover:bg-gray-50/80 dark:hover:bg-slate-800/40 transition-colors"
+              >
+                <td className="py-3 px-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                  {person.rank}
+                </td>
+                <td className="py-3 px-3 font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center text-[10px] font-bold text-gray-700 dark:text-gray-200">
+                    {person.name[0]}
+                  </div>
+                  <span>{person.name}</span>
+                </td>
+                <td className="py-3 px-3 text-right font-bold text-gray-800 dark:text-gray-200">
+                  {person.mtdRevenue}
+                </td>
+                <td className="py-3 px-3 text-right text-gray-600 dark:text-gray-400 font-medium">
+                  {person.mtdOrders}
+                </td>
+                <td className="py-3 px-3 text-right font-bold text-emerald-600 dark:text-emerald-400">
+                  {person.todayRevenue}
+                </td>
+                <td className="py-3 px-3 text-right text-gray-600 dark:text-gray-400 font-medium">
+                  {person.todayOrders || '—'}
+                </td>
+                <td className="py-3 px-3 text-center">
+                  <span
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      person.status === 'Active'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-900/60'
+                        : 'bg-gray-100 dark:bg-slate-800 text-gray-500'
+                    }`}
+                  >
+                    {person.status}
+                  </span>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-gray-400 mt-3">Showing 1-10 of 10 staff members</p>
+
+      <div className="mt-4 pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
+        <span className="flex items-center gap-1">
+          <Users className="w-3.5 h-3.5 text-cyan-500" /> Showing {filtered.length} of {leaderboard.length} staff members
+        </span>
+        <span className="flex items-center gap-1">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> Verified Commission Metrics
+        </span>
+      </div>
     </div>
   )
 }
